@@ -2,10 +2,18 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify
+from model_utils.models import TimeStampedModel
 
 User = get_user_model()
 
-class BlogPost(models.Model):
+
+class Pictures(TimeStampedModel):
+    img = models.ImageField(upload_to='images')
+
+    def __str__(self):
+        return str(self.img)
+
+class BlogPost(TimeStampedModel):
     title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -13,7 +21,17 @@ class BlogPost(models.Model):
     created_on = models.DateField(blank=True, null=True)
     published = models.BooleanField(default=False, verbose_name="Publié")
     content = models.TextField(blank=True, verbose_name="Contenu")
-    thumbnail = models.ImageField(blank=True)
+    images = models.ManyToManyField(Pictures, blank=True)
+
+# class BlogPost(models.Model):
+#     title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
+#     slug = models.SlugField(max_length=255, unique=True, blank=True)
+#     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+#     last_updated = models.DateTimeField(auto_now=True)
+#     created_on = models.DateField(blank=True, null=True)
+#     published = models.BooleanField(default=False, verbose_name="Publié")
+#     content = models.TextField(blank=True, verbose_name="Contenu")
+#     thumbnail = models.ImageField(blank=True)
 
     @property
     def author_or_default(self):
@@ -37,7 +55,7 @@ class BlogPost(models.Model):
 
         super().save(*args, **kwargs)
 
-class BlogImage(models.Model):
-    post = models.ForeignKey(BlogPost, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='blog_images/')
-    caption = models.CharField(max_length=255, blank=True)
+# class BlogImage(models.Model):
+#     post = models.ForeignKey(BlogPost, related_name='images', on_delete=models.CASCADE)
+#     image = models.ImageField(upload_to='blog_images/')
+#     caption = models.CharField(max_length=255, blank=True)
