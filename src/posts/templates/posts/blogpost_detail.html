@@ -8,5 +8,16 @@
     <article></article>
         <h1>{{ post.title }}</h1>
         <div>{{ post.content|linebreaks|safe }}</div>
+        {% comment %} <img src="{{ post.images.url }}" alt="L'image de l'article">
+         {% endcomment %}
+         {% comment %} {% if post.images.all.first %}
+            <div class="text-center">
+                <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
+            </div>
+        {% endif %} {% endcomment %}
+        {% for image in post.images.all %}
+          <img src="{{ image.img.url }}" alt="L'image de l'article">
+        {% endfor %}
+
     </article>
 {% endblock %}

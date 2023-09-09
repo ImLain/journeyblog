@@ -21,6 +21,13 @@
             <form action="{% url 'posts:post' slug=post.slug %}">
                 <button>Lire l'article</button>
             </form>
+
+            {% if post.images.all.first %}
+                <div class="text-center">
+                    <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
+                </div>
+            {% endif %}
+
         </article>
 
       {% else %}
@@ -36,6 +43,12 @@
         <form action="{% url 'posts:post' slug=post.slug %}">
             <button>Lire l'article</button>
         </form>
+
+        {% if post.images.all.first %}
+            <div class="text-center">
+                <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
+            </div>
+        {% endif %}
 
       </article>
 
