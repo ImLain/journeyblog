@@ -9,13 +9,14 @@
     <h1>Ajouter un article</h1>
 
     <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ pictures_formset.management_form }}
-        {% for picture_form in pictures_formset %}
-            {{ picture_form.as_p }}
-        {% endfor %}
-        <input type="submit" value="Créer">
-    </form>
+      {% csrf_token %}
+      {{ form.as_p }}
+      {{ pictures_formset.management_form }}
+
+      <!-- Afficher uniquement le premier formulaire du formset -->
+      {{ pictures_formset.0.as_p }}
+
+      <input type="submit" value="Créer">
+  </form>
 
 {% endblock %}
