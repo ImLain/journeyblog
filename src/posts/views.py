@@ -33,7 +33,7 @@ class BlogHome(ListView):
 class BlogPostCreate(CreateView):
     model = BlogPost
     template_name = 'posts/blogpost_create.html'
-    fields = ['title', 'content', 'published']
+    fields = ['title', 'content', 'published', 'author', 'created_on']
     success_url = reverse_lazy('posts:home')
 
     def get_context_data(self, **kwargs):
@@ -46,20 +46,22 @@ class BlogPostCreate(CreateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        pictures_formset = context["pictures_formset"]
+        pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
         self.object = form.save()
-        if pictures_formset.is_valid():
-            pictures = pictures_formset.save(commit=False)
-            for picture in pictures:
+
+        if pictures_form.is_valid():
+            for file in self.request.FILES.getlist('pictures-0-img'):
+                picture = Pictures(img=file)
                 picture.save()
                 self.object.images.add(picture)
+
         return super().form_valid(form)
 
 
 class BlogPostEdit(UpdateView):
     model = BlogPost
     template_name = 'posts/blogpost_edit.html'
-    fields = ['title', 'content', 'published', ]
+    fields = ['title', 'content', 'published', 'author', 'created_on']
 
     success_url = reverse_lazy('posts:home')
 
