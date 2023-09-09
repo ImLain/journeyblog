@@ -1,40 +1,57 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django import forms
-from .forms import PictureForm, PictureFormSet
+from .forms import PictureFormSet
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+from django.http import Http404
+
+from django.views import View
 
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+
 from posts.models import BlogPost, Pictures
+
+User = get_user_model()
+
+class UserSearchView(View):
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get('username')
+        if username:
+            return redirect('posts:home', username=username.lower())
+        return reverse('posts:home', kwargs={'username': self.request.user.username})
+
 
 class BlogHome(ListView):
     model = BlogPost
     context_object_name = "posts"
 
-    #pour ne pas afficher les articles publiés pour les visiteurs
     def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.request.user.is_authenticated:
-            return queryset
-            #return queryset.filter(author=self.request.user)
+        # Obtenir le username depuis l'URL
+        username = self.kwargs.get('username')
+        # Obtenir le User object correspondant
+        user = User.objects.get(username=username)
 
-        return queryset.filter(published=True)
+        try:
+            # Obtenir le User object correspondant
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise Http404("User not found")
 
-
-
-# class BlogPostCreate(CreateView):
-#     model = BlogPost
-#     template_name = 'posts/blogpost_create.html'
-#     fields = ['title', 'content', 'published',]
-
-#     success_url = reverse_lazy('posts:home') #ou bien dans models, on peut ajouter une fonction get_absolute_url
-
-
+        # Filtrer les posts par cet utilisateur
+        if self.request.user.is_authenticated and self.request.user.username == username:
+            # Si l'utilisateur est authentifié et qu'il visite sa propre page, on lui montre tous ses posts
+            return BlogPost.objects.filter(author=user)
+        else:
+            # Si un visiteur ou un autre utilisateur visite cette page, ne montrer que les posts publiés
+            return BlogPost.objects.filter(author=user, published=True)
 
 class BlogPostCreate(CreateView):
     model = BlogPost
     template_name = 'posts/blogpost_create.html'
     fields = ['title', 'content', 'published', 'author', 'created_on']
-    success_url = reverse_lazy('posts:home')
+
+    def get_success_url(self):
+        return reverse('posts:home', kwargs={'username': self.request.user.username})
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -63,7 +80,8 @@ class BlogPostEdit(UpdateView):
     template_name = 'posts/blogpost_edit.html'
     fields = ['title', 'content', 'published', 'author', 'created_on']
 
-    success_url = reverse_lazy('posts:home')
+    def get_success_url(self):
+        return reverse('posts:home', kwargs={'username': self.request.user.username})
 
 
 class BlogPostDetail(DetailView):
@@ -71,6 +89,9 @@ class BlogPostDetail(DetailView):
     context_object_name = "post"
 
 
+
 class BlogPostDelete(DeleteView):
     model = BlogPost
     success_url = reverse_lazy("posts:home")
+    def get_success_url(self):
+        return reverse('posts:home', kwargs={'username': self.request.user.username})
