@@ -14,7 +14,7 @@ class Pictures(TimeStampedModel):
         return str(self.img)
 
 class BlogPost(TimeStampedModel):
-    title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
+    title = models.CharField(max_length=255, unique=False, verbose_name="Titre")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -22,16 +22,6 @@ class BlogPost(TimeStampedModel):
     published = models.BooleanField(default=False, verbose_name="Publié")
     content = models.TextField(blank=True, verbose_name="Contenu")
     images = models.ManyToManyField(Pictures, blank=True)
-
-# class BlogPost(models.Model):
-#     title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
-#     slug = models.SlugField(max_length=255, unique=True, blank=True)
-#     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-#     last_updated = models.DateTimeField(auto_now=True)
-#     created_on = models.DateField(blank=True, null=True)
-#     published = models.BooleanField(default=False, verbose_name="Publié")
-#     content = models.TextField(blank=True, verbose_name="Contenu")
-#     thumbnail = models.ImageField(blank=True)
 
     @property
     def author_or_default(self):
@@ -48,14 +38,7 @@ class BlogPost(TimeStampedModel):
     def __str__(self):
       return self.title
 
-
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
-
+            self.slug = slugify(f"{self.author.username}-{self.title}")
         super().save(*args, **kwargs)
-
-# class BlogImage(models.Model):
-#     post = models.ForeignKey(BlogPost, related_name='images', on_delete=models.CASCADE)
-#     image = models.ImageField(upload_to='blog_images/')
-#     caption = models.CharField(max_length=255, blank=True)

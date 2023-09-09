@@ -12,15 +12,17 @@
             <h2>{{ post.title }}</h2>
             <div>
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'posts:edit' slug=post.slug %}">Éditer</a>
-                    <a href="{% url 'posts:delete' slug=post.slug %}">Supprimer</a>
+                    <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}">Éditer</a>
+                    <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}">Supprimer</a>
                 {% endif %}
             </div>
             <h5>Publié par <i>{{ post.author_or_default|capfirst }}</i> le {{ post.created_on|date:'j F Y' }}</h5>
             <p>{{ post.content|safe|truncatewords:50 }}</p>
-            <form action="{% url 'posts:post' slug=post.slug %}">
-                <button>Lire l'article</button>
+
+            <form action="{% url 'posts:post' username=request.user.username slug=post.slug %}">
+              <button>Lire l'article</button>
             </form>
+
 
             {% if post.images.all.first %}
                 <div class="text-center">
@@ -36,13 +38,14 @@
 
         <h2>{{ post.title }}</h2>
 
-        <h5>Publié par <i>{{ post.author_or_default }}</i> le {{ post.created_on|date:'j F Y' }}</h5>
+        <h5>Publié par <i>{{ post.author_or_default|capfirst }}</i> le {{ post.created_on|date:'j F Y' }}</h5>
 
         <p>{{ post.content|safe|truncatewords:50 }}</p>
 
-        <form action="{% url 'posts:post' slug=post.slug %}">
-            <button>Lire l'article</button>
+        <form action="{% url 'posts:post' username=request.user.username slug=post.slug %}">
+          <button>Lire l'article</button>
         </form>
+
 
         {% if post.images.all.first %}
             <div class="text-center">
