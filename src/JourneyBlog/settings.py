@@ -128,5 +128,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles' #dossier dans lequel on souhaite mettre nos fichiers médias (comme pour STATIC_ROOT)
 
-
+LOGIN_REDIRECT_URL = "/posts/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

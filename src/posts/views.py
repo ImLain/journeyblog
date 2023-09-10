@@ -9,16 +9,30 @@ from django.views import View
 
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
+from .forms import SignUpForm
+from django.contrib.auth.models import User
+
 from posts.models import BlogPost, Pictures
 
 User = get_user_model()
+
+
+# Sign Up View
+class SignUpView(CreateView):
+    form_class = SignUpForm
+    # success_url = reverse_lazy('login') #à modifier
+    template_name = 'user/signup.html'
+
+    def get_success_url(self):
+        username = self.object.username
+        return reverse('posts:profile', kwargs={'username': username})
 
 class UserSearchView(View):
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
         if username:
-            return redirect('posts:home', username=username.lower())
-        return reverse('posts:home', kwargs={'username': self.request.user.username})
+            return redirect('posts:profile', username=username.lower())
+        return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
 
 class BlogHome(ListView):
@@ -51,7 +65,7 @@ class BlogPostCreate(CreateView):
     fields = ['title', 'content', 'published', 'author', 'created_on']
 
     def get_success_url(self):
-        return reverse('posts:home', kwargs={'username': self.request.user.username})
+        return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -81,7 +95,7 @@ class BlogPostEdit(UpdateView):
     fields = ['title', 'content', 'published', 'author', 'created_on']
 
     def get_success_url(self):
-        return reverse('posts:home', kwargs={'username': self.request.user.username})
+        return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
 
 class BlogPostDetail(DetailView):
@@ -92,6 +106,6 @@ class BlogPostDetail(DetailView):
 
 class BlogPostDelete(DeleteView):
     model = BlogPost
-    success_url = reverse_lazy("posts:home")
+    success_url = reverse_lazy("posts:profile")
     def get_success_url(self):
-        return reverse('posts:home', kwargs={'username': self.request.user.username})
+        return reverse('posts:profile', kwargs={'username': self.request.user.username})
