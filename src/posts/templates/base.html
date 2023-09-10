@@ -7,10 +7,9 @@
 
 <nav>
   {% if request.user.is_authenticated %}
-  <a href="{% url 'posts:profile' request.user.username %}">Accueil</a>
-
-
+        <a href="{% url 'posts:profile' request.user.username %}">Accueil</a>
         <a href="{% url 'posts:create' %}">Ajouter un article</a>
+        <a href="{% url 'logout' %}">Log Out</a>
     {% endif %}
 
     <form action="{% url 'posts:user_search' %}" method="get">
