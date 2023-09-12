@@ -21,17 +21,6 @@ class SignUpForm(UserCreationForm):
             'password2',
             ]
 
-
-# # Profile Form
-# class ProfileForm(forms.ModelForm):
-
-#     class Meta:
-#         model = User
-#         fields = [
-#             'username',
-#             'email',
-#             ]
-
 class MultipleFileInput(forms.FileInput):
     def render(self, name, value, attrs=None, renderer=None):
         if 'multiple' not in self.attrs:

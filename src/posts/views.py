@@ -17,6 +17,7 @@ from posts.models import BlogPost, Pictures
 User = get_user_model()
 
 
+
 # Sign Up View
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -27,13 +28,25 @@ class SignUpView(CreateView):
         username = self.object.username
         return reverse('posts:profile', kwargs={'username': username})
 
+# class UserSearchView(View):
+#     def get(self, request, *args, **kwargs):
+#         username = request.GET.get('username')
+#         if username:
+#             return redirect('posts:profile', username=username.lower())
+#         return reverse('posts:profile', kwargs={'username': self.request.user.username})
+
 class UserSearchView(View):
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
-        if username:
-            return redirect('posts:profile', username=username.lower())
-        return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
+        # Si le nom d'utilisateur est vide ou non valide
+        if not username or not self.is_valid_username(username):
+            return redirect('home')
+
+        return redirect('posts:profile', username=username.lower())
+
+    def is_valid_username(self, username):
+        return User.objects.filter(username=username).exists()
 
 class BlogHome(ListView):
     model = BlogPost
