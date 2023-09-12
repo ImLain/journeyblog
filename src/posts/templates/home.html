@@ -1,13 +1,97 @@
-{% extends 'base.html' %}
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+  {% if request.user.is_authenticated %}
+    <nav class="auth-nav">
+      <ul>
+        <li><a href="{% url 'posts:profile' request.user.username %}"><button class="btn-profile"><i class="fa-solid fa-user-astronaut fa-3x"></i></button></a></li>
+        <li><a href="{% url 'logout' %}"><button class="btn-logout">Logout</button></a></li>
+      </ul>
+    </nav>
+    {% else %}
+    <nav class="non-auth-nav">
+      <ul>
+        <li><a href="{% url 'login' %}"><button class="btn-login">Login</button></a></li>
+        <li><a href="{% url 'signup' %}"><button class="btn-signup">Sign Up</button></a></li>
+      </ul>
+    </nav>
+    {% endif %}
+
+  {% block title %}
+    <div class="catchy-words">
+      <div class="h1">Travel, Enjoy & Share</div>
+    </div>
+  {% endblock %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="background-container" >
+      <img src="{% static 'images/iceland1.webp' %}" alt="Iceland Image">
+    </div>
+
+    <div class="search-bar">
+      <form action="{% url 'posts:user_search' %}" method="get">
+        <input type="text" name="username" placeholder="Search by username">
+        <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div>
+
+{% endblock %}
+
+
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Test</h1>
+{% block content %}
+  {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+  {% else %}
+    <div className="discovery-page">
+      <header>
+        <nav>
+          <ul>
+            <li><a href="{% url 'login' %}"><button className="btn-login">Login</button></a></li>
+            <li><a href="{% url 'signup' %}"><button className="btn-signup">Sign Up</button></a></li>
+          </ul>
+        </nav>
+      </header>
+      <div className="background-container" style="background-image: url('{% static 'path/to/iceland.jpg' %}')"></div>
+      <main>
+        <div className="catchy-words">
+          <h1>Travel, Enjoy & Share</h1>
+        </div>
+
+        <div className="search-bar">
+          <input type="text" placeholder="Search by username" style="background-color: white">
+          <button className="search-btn"><i className="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+      </main>
+    </div>
+  {% endif %}
+{% endblock %} {% endcomment %}
+
+
+{% comment %} {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">Log Out</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a>
-{% endif %}
-{% endblock %}
+  {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+  {% endif %}
+{% endblock %} {% endcomment %}

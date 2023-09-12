@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'livereload',
     'django.contrib.staticfiles',
     'posts',
     'accounts',
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'livereload.middleware.LiveReloadScript'
 ]
 
 ROOT_URLCONF = 'JourneyBlog.urls'
@@ -132,3 +134,12 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles' #dossier dans lequel on souhaite mettre nos
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static"
+# ]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "posts" / "static"
+]

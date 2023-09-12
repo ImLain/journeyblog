@@ -1,0 +1,19 @@
+{% load livereload_tags %}
+<html lang="fr">
+
+{% block head_extra %}
+<head>
+    <meta charset="UTF-8">
+    {% block title %}{% endblock %}
+
+</head>
+{% endblock %}
+<body>
+
+<section id="home">
+    {% block content %}{% endblock %}
+
+</section>
+<script src="https://kit.fontawesome.com/a40355b42d.js" crossorigin="anonymous"></script>
+</body>
+</html>
