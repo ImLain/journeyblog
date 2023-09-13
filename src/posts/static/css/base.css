@@ -1,0 +1,100 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* pour éviter les défilements accidentels */
+
+}
+
+nav{
+  background-color: #0f3430fb;
+  padding: 7px;
+  filter: none;
+}
+
+.auth-nav{
+  display: flex;
+  flex-wrap: wrap;
+}
+ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+
+li {
+  display: flex;
+}
+
+.btn-profile{
+  border: none;
+  cursor: pointer;
+  margin-right: 0;
+  border-radius: 10px;
+  background-color: transparent;
+  color: white;
+}
+
+.search-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar form {
+  margin-left: 35em;
+  display: flex;
+  align-items: center;
+  border: solid 1px white;
+  border-radius: 4px;
+  background-color: white;
+  opacity: 0.7;
+}
+.search-bar input {
+  width: 500px;
+  border: none;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.search-bar input::placeholder {
+  color: rgba(0, 0, 0, 0.535);
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-btn {
+  border: none;
+  width: 5%;
+  background-color: transparent;
+  margin: auto;
+  cursor: pointer;
+}
+
+.btn-logout{
+  position: absolute;
+  top: 23px;
+  right: 50px;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: #0f3430fb;
+  color: white;
+  border: 0.5px solid white;
+  padding: 9.3px;
+  width: 7.3em;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  /* transition: transform 0.4s ease; */
+}
