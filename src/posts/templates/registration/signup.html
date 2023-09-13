@@ -1,12 +1,28 @@
-{% extends "base.html" %}
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
 
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enregistre-toi bon sang</button>
-  </form>
+  <div class="background-container" >
+    <img src="{% static 'images/iceland1.webp' %}" alt="Iceland Image">
+  </div>
+
+  <div class="register-form">
+    <div class="signup">Sign up</div>
+    <form class="form" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">SIGN UP</button>
+    </form>
+    <div class="account">You don't have an account ? <a href="{% url 'login' %}">Go log in !</a></div>
+
+  </div>
+
+
 {% endblock %}
