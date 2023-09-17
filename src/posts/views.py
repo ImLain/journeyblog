@@ -21,19 +21,11 @@ User = get_user_model()
 # Sign Up View
 class SignUpView(CreateView):
     form_class = SignUpForm
-    # success_url = reverse_lazy('login') #à modifier
     template_name = 'user/signup.html'
 
     def get_success_url(self):
         username = self.object.username
         return reverse('posts:profile', kwargs={'username': username})
-
-# class UserSearchView(View):
-#     def get(self, request, *args, **kwargs):
-#         username = request.GET.get('username')
-#         if username:
-#             return redirect('posts:profile', username=username.lower())
-#         return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
 class UserSearchView(View):
     def get(self, request, *args, **kwargs):
@@ -71,6 +63,11 @@ class BlogHome(ListView):
         else:
             # Si un visiteur ou un autre utilisateur visite cette page, ne montrer que les posts publiés
             return BlogPost.objects.filter(author=user, published=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogHome, self).get_context_data(**kwargs)
+        context['username_in_url'] = self.kwargs.get('username')
+        return context
 
 class BlogPostCreate(CreateView):
     model = BlogPost
