@@ -1,0 +1,123 @@
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
+
+.title {
+  display: flex;
+  align-items: center;
+  font-family: "Pacifico", cursive;
+  font-size: 77px;
+  text-align: center;
+  color: black;
+  line-height: normal;
+  justify-content: center;
+}
+
+.posts-grid {
+  margin: 50px;
+  display: flex;
+  padding: 50px;
+  gap: 100px;
+  justify-content: space-around;
+  white-space: nowrap;
+}
+
+.post-item {
+  width: 400px;
+  height: 600px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  display: inline-block;
+  border-radius: 40px;
+}
+
+.post-item:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+.post-item:not(:hover) {
+  transition: transform 0.3s ease;
+}
+
+
+.post-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.post-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  padding: 5px;
+}
+
+
+.read-article, .edit, .delete{
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  margin: 3px;
+}
+
+
+
+/* .read-article:hover {
+  text-decoration: none;
+} */
+
+h2{
+  font-family: "Maven Pro", sans-serif;
+  font-size: 30px;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+h5{
+  font-family: "Maven Pro", sans-serif;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+  margin: 10px;
+}
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-content {
+  display: flex;
+  transition: transform 0.5s ease;
+  will-change: transform;  /* Pour améliorer la performance lors de l'animation */
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+  color: #0f3430fb;
+}
+
+/* .carousel-btn i{
+  background-color: none;
+} */
+
+
+.carousel-btn-left {
+  left: 10px;
+}
+
+.carousel-btn-right {
+  right: 10px;
+}
