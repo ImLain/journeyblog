@@ -1,17 +1,147 @@
-{% extends 'base.html' %}
+{% extends 'blogpost_base.html' %}
+{% load static %}
 
-{% block title %}
-    <title>Éditer l'article</title>
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/blogpost_base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/blogpost_create.css' %}">
+  <title>Edit an article</title>
 {% endblock %}
 
+
 {% block content %}
+  <div class="background-container">
+    <img src="{% static 'images/coffee.jpg' %}" alt="Iceland Image">
+  </div>
 
-    <h1>Éditer l'article</h1>
+  <div class="container">
+    <div class="add-form">
+      <div class="title">Edit a post</div>
 
-    <form method="POST">
+        <form class="form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Éditer">
-    </form>
 
+          <div class="title-label">
+            {{ form.title.label_tag }}
+          </div>
+          <div class="title-input">
+            {{ form.title }}
+          </div>
+
+          <div class="content-label">
+            {{ form.content.label_tag }}
+          </div>
+          <div class="content-form">
+            {{ form.content }}
+          </div>
+
+          <div class="published-picture-container">
+
+            <div class="published">
+              <p>
+                  {{ form.published.label_tag }}
+                  {{ form.published }}
+              </p>
+            </div>
+
+            <div class="picture">
+              <button type="button" id="remove-all-images" class="remove-all-images-btn">Remove All Images</button>
+              <div class="picture-attachment-container">
+
+                <input type="hidden" id="existingFileCount" value="{{ object.images.all.count }}">
+                <input type="hidden" name="remove_all_images" id="remove_all_images" value="0">
+
+
+                <div class="picture-attachment-label-container">
+                  <svg class="picture-attachment-label-icon" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/TR/SVG/"><path d="M21.438 11.662l-9.19 9.19a6.003 6.003 0 11-8.49-8.49l9.19-9.19a4.002 4.002 0 015.66 5.66l-9.2 9.19a2.001 2.001 0 11-2.83-2.83l8.49-8.48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    {{ pictures_formset.management_form }}
+
+              <!-- Afficher uniquement le premier formulaire du formset -->
+                  {{ pictures_formset.0.as_p }}
+                </div>
+
+              <div class="picture-attachment-wrapper hidden">
+                <div class="picture-attachment">
+                  <img class="picture-attachment-image hidden" src="" alt="">
+                  <p class="picture-attachment-extension hidden"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+            <button class="add-btn" type="submit">Edit</button>
+          </form>
+
+        <div class="go-back"><a href="{% url 'posts:profile' request.user.username %}">GO BACK</a></div>
+      </div>
+    </div>
+        {% comment %} {{ form }} {% endcomment %}
+        {% comment %} <input type="submit" value="Éditer"> {% endcomment %}
+    {% comment %} </form> {% endcomment %}
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialisation des variables
+        let existingFileCount = parseInt(document.getElementById('existingFileCount').value) || 0;
+        const labelElement = document.querySelector("label[for='id_pictures-0-img']");
+        const fileInput = document.getElementById('id_pictures-0-img');
+        const labelSpan = document.createElement('span');
+        const removeAllImagesButton = document.getElementById('remove-all-images');
+        let removedAllImages = false; // nouvel indicateur pour savoir si l'utilisateur a cliqué sur "Remove All Images"
+
+        labelSpan.id = 'attachmentLabel';
+
+        if (existingFileCount === 0) {
+            labelSpan.textContent = 'Add attachment :';
+        } else if (existingFileCount === 1) {
+            labelSpan.textContent = '1 file already added';
+        } else {
+            labelSpan.textContent = `${existingFileCount} files already added`;
+        }
+
+        // Insérer le <span> dans le <label>
+        labelElement.innerHTML = '';
+        labelElement.appendChild(labelSpan);
+
+        // Écouter l'événement 'click' sur le bouton
+        removeAllImagesButton.addEventListener('click', function() {
+            // Réinitialiser le champ de fichier
+            fileInput.value = '';
+
+            // Mettre à jour le texte du label
+            labelSpan.textContent = 'Add attachment :';
+
+            // Mettre à jour le champ caché
+            document.getElementById('remove_all_images').value = '1';
+
+            // Mettre à jour l'indicateur
+            removedAllImages = true;
+        });
+
+        // Écouter l'événement 'change' sur l'input de fichier
+        fileInput.addEventListener('change', function() {
+            const newFileCount = fileInput.files.length;
+
+            if (removedAllImages) {
+                if (newFileCount === 1) {
+                    labelSpan.textContent = 'You added 1 new image';
+                } else {
+                    labelSpan.textContent = `You added ${newFileCount} new images`;
+                }
+                // Réinitialisez l'indicateur pour les changements futurs.
+                removedAllImages = false;
+                return;
+            }
+
+            const totalFileCount = existingFileCount + newFileCount;
+
+            if (totalFileCount === 1) {
+                labelSpan.textContent = '1 file to be added';
+            } else if (totalFileCount > 1) {
+                labelSpan.textContent = `${totalFileCount} files to be added`;
+            } else {
+                labelSpan.textContent = existingFileCount > 0 ? `${existingFileCount} files already added` : 'Add attachment :';
+            }
+        });
+    });
+    </script>
 {% endblock %}
