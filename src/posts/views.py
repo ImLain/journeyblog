@@ -11,6 +11,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 
 from .forms import SignUpForm
 from django.contrib.auth.models import User
+from datetime import datetime
+
 
 from posts.models import BlogPost, Pictures
 
@@ -72,7 +74,11 @@ class BlogHome(ListView):
 class BlogPostCreate(CreateView):
     model = BlogPost
     template_name = 'posts/blogpost_create.html'
-    fields = ['title', 'content', 'published', 'author', 'created_on']
+    fields = ['title', 'content', 'published']
+    labels = {
+            'title': 'Where did go ?',
+            'content': 'What do you want to share ?',
+        }
 
     def get_success_url(self):
         return reverse('posts:profile', kwargs={'username': self.request.user.username})
@@ -86,6 +92,9 @@ class BlogPostCreate(CreateView):
         return data
 
     def form_valid(self, form):
+        form.instance.author = self.request.user  # Assigner l'auteur
+        form.instance.created_on = datetime.now()
+
         context = self.get_context_data()
         pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
         self.object = form.save()

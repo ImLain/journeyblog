@@ -7,96 +7,61 @@
 {% endblock %}
 
 {% block content %}
+  <div class="title-container">
+    <div class="title">The {{ username_in_url|capfirst }}'s Journey</div>
 
-  <div class="title">The {{ username_in_url|capfirst }}'s Journey</div>
+    {% if request.user.is_authenticated and request.user.username == username_in_url %}
+      <div class="post-add">
+        <a href="{% url 'posts:create' %}">
+          <div class="add"><i class="fa-solid fa-circle-plus"></i></div>
+        </a>
+      </div>
+      {% endif %}
+  </div>
 
-    {% comment %} {% for post in posts %}
+  {% comment %} {% if post.images.all.first %}
+      <div class="text-center">
+          <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
+      </div>
+  {% endif %} {% endcomment %}
 
-        <article>
-            <h2>{{ post.title }}</h2>
+    <div class="carousel-container">
 
-            {% if post.author == request.user %}
+      <button class="carousel-btn carousel-btn-left">
+          <i class="fa-solid fa-circle-chevron-left"></i>
+      </button>
 
-              <div>
-                  <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}">Éditer</a>
-                  <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}">Supprimer</a>
-              </div>
+      <div class="carousel-content">
 
-            {% endif %}
-
-            <h5>Publié par <i>{{ post.author_or_default|capfirst }}</i> le {{ post.created_on|date:'j F Y' }}</h5>
-            <p>{{ post.content|safe|truncatewords:50 }}</p>
-
-            <form action="{% url 'posts:post' username=request.user.username slug=post.slug %}">
-              <button>Lire l'article</button>
-            </form>
-
-            {% if post.images.all.first %}
-                <div class="text-center">
-                    <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
-                </div>
-            {% endif %}
-
-        </article>
-        {% endfor %} {% endcomment %}
-
-        {% comment %} <div class="posts-grid">
+        <div class="posts-grid">
           {% for post in posts %}
             <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');">
-                <div class="post-info">
+
+              <div class="post-info">
+                  <a href="{% url 'posts:post' username=request.user.username slug=post.slug %}" class="read-article">
                     <h2>{{ post.title|capfirst }}</h2>
+                  </a>
                     <h5>Le {{ post.created_on|date:'j F Y' }}</h5>
                 </div>
 
                 {% if post.author == request.user %}
-                    <div class="post-actions">
-                        <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}">Éditer</a>
-                        <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}">Supprimer</a>
-                    </div>
+                  <div class="post-actions">
+                      <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}" class="edit"><i class="fa-solid fa-pencil fa-lg"></i></a>
+                      <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}" class="delete"><i class="fa-regular fa-trash-can fa-lg"></i></a>
+                  </div>
                 {% endif %}
 
-                <form action="{% url 'posts:post' username=request.user.username slug=post.slug %}" class="read-article-form">
-                    <button>Lire l'article</button>
-                </form>
             </article>
           {% endfor %}
         </div>
-        {% endblock %} {% endcomment %}
 
+      </div>
 
-        <div class="carousel-container">
-          <button class="carousel-btn carousel-btn-left">
-              <i class="fa-solid fa-circle-chevron-left"></i>
-          </button>
-          <div class="carousel-content">
+      <button class="carousel-btn carousel-btn-right">
+        <i class="fa-solid fa-circle-chevron-right"></i>
+      </button>
 
-            <div class="posts-grid">
-              {% for post in posts %}
-                <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');">
-                    <div class="post-info">
-
-                      <a href="{% url 'posts:post' username=request.user.username slug=post.slug %}" class="read-article">
-                        <h2>{{ post.title|capfirst }}</h2>
-                      </a>
-                        <h5>Le {{ post.created_on|date:'j F Y' }}</h5>
-                    </div>
-
-                    {% if post.author == request.user %}
-                        <div class="post-actions">
-                            <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}" class="edit"><i class="fa-solid fa-pencil fa-lg"></i></a>
-                            <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}" class="delete"><i class="fa-regular fa-trash-can fa-lg"></i></a>
-                        </div>
-                    {% endif %}
-                </article>
-              {% endfor %}
-            </div>
-
-          </div>
-
-          <button class="carousel-btn carousel-btn-right">
-            <i class="fa-solid fa-circle-chevron-right"></i>
-        </button>
-            </div>
+    </div>
 
     <script src="https://kit.fontawesome.com/a40355b42d.js" crossorigin="anonymous"></script>
 

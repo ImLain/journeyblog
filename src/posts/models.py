@@ -14,14 +14,14 @@ class Pictures(TimeStampedModel):
         return str(self.img)
 
 class BlogPost(TimeStampedModel):
-    title = models.CharField(max_length=255, unique=False, verbose_name="Titre")
+    title = models.CharField(max_length=255, unique=False, verbose_name="Where did you go ?")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
     created_on = models.DateField(blank=True, null=True)
-    published = models.BooleanField(default=False, verbose_name="Publié")
-    content = models.TextField(blank=True, verbose_name="Contenu")
-    images = models.ManyToManyField(Pictures, blank=True)
+    published = models.BooleanField(default=False, verbose_name="Do you want to publish it ?")
+    content = models.TextField(blank=True, verbose_name="Share your journey ")
+    images = models.ManyToManyField(Pictures, blank=True, verbose_name="Add attachment")
 
     @property
     def author_or_default(self):

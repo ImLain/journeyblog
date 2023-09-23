@@ -28,7 +28,7 @@ class MultipleFileInput(forms.FileInput):
         return super().render(name, value, attrs, renderer)
 
 class PictureForm(forms.ModelForm):
-    img = forms.FileField(widget=MultipleFileInput(), required=False)
+    img = forms.FileField(widget=MultipleFileInput(), required=False, label='Add attachment ')
 
     class Meta:
         model = Pictures
