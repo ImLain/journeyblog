@@ -18,13 +18,7 @@
         </a>
       </div>
       {% endif %}
-  </div>
-
-  {% comment %} {% if post.images.all.first %}
-      <div class="text-center">
-          <img class="detail_picture img-thumbnail" src="{{ post.images.all.first.img.url }}">
-      </div>
-  {% endif %} {% endcomment %}
+    </div>
 
     <div class="carousel-container">
 
@@ -36,11 +30,16 @@
 
         <div class="posts-grid">
           {% for post in posts %}
-            <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');">
-
+            {% comment %} <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');"> {% endcomment %}
+            {% if post.images.all.first %}
+              <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');">
+            {% else %}
+              <article class="post-item" style="background-color: rgba(0, 0, 0, 0.213);">
+            {% endif %}
               <div class="post-info">
                   <a href="{% url 'posts:post' username=request.user.username slug=post.slug %}" class="read-article">
-                    <h2>{{ post.title|capfirst }}</h2>
+                    <h2><span style="font-weight: bold">{{ post.title|capfirst }}</span></h2>
+
                   </a>
                     <h5>Le {{ post.created_on|date:'j F Y' }}</h5>
                 </div>
