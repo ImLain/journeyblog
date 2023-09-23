@@ -19,7 +19,6 @@ from posts.models import BlogPost, Pictures
 User = get_user_model()
 
 
-
 # Sign Up View
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -75,10 +74,6 @@ class BlogPostCreate(CreateView):
     model = BlogPost
     template_name = 'posts/blogpost_create.html'
     fields = ['title', 'content', 'published']
-    labels = {
-            'title': 'Where did go ?',
-            'content': 'What do you want to share ?',
-        }
 
     def get_success_url(self):
         return reverse('posts:profile', kwargs={'username': self.request.user.username})
@@ -91,15 +86,37 @@ class BlogPostCreate(CreateView):
             data["pictures_formset"] = PictureFormSet(prefix='pictures')
         return data
 
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user  # Assigner l'auteur
+    #     form.instance.created_on = datetime.now()
+
+    #     context = self.get_context_data()
+    #     pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
+    #     self.object = form.save()
+
+    #     if pictures_form.is_valid():
+    #         for file in self.request.FILES.getlist('pictures-0-img'):
+    #             picture = Pictures(img=file)
+    #             picture.save()
+    #             self.object.images.add(picture)
+
+    #     return super().form_valid(form)
     def form_valid(self, form):
         form.instance.author = self.request.user  # Assigner l'auteur
-        form.instance.created_on = datetime.now()
+        form.instance.updated_on = datetime.now()
 
         context = self.get_context_data()
-        pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
+        pictures_form = context["pictures_formset"]
+
         self.object = form.save()
 
+        # Supprimer toutes les anciennes images associées à ce post
+        self.object.images.clear()
+
         if pictures_form.is_valid():
+            pictures_form.instance = self.object
+            pictures_form.save()
+
             for file in self.request.FILES.getlist('pictures-0-img'):
                 picture = Pictures(img=file)
                 picture.save()
@@ -107,14 +124,54 @@ class BlogPostCreate(CreateView):
 
         return super().form_valid(form)
 
-
 class BlogPostEdit(UpdateView):
     model = BlogPost
     template_name = 'posts/blogpost_edit.html'
-    fields = ['title', 'content', 'published', 'author', 'created_on']
+    fields = ['title', 'content', 'published']
 
     def get_success_url(self):
         return reverse('posts:profile', kwargs={'username': self.request.user.username})
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data["pictures_formset"] = PictureFormSet(self.request.POST, self.request.FILES, prefix='pictures')
+        else:
+            data["pictures_formset"] = PictureFormSet(queryset=Pictures.objects.none(), prefix='pictures')
+        return data
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # Assigner l'auteur
+        form.instance.updated_on = datetime.now()
+
+        context = self.get_context_data()
+        pictures_form = context["pictures_formset"]
+
+        self.object = form.save()
+
+        remove_all_images = self.request.POST.get('remove_all_images', '0') == '1'
+        if remove_all_images:
+            self.object.images.clear()
+
+        if pictures_form.is_valid():
+            pictures_form.instance = self.object
+            pictures_form.save()
+
+            # Supprimer les anciennes images si vous le souhaitez
+
+            for file in self.request.FILES.getlist('pictures-0-img'):
+                picture = Pictures(img=file)
+                picture.save()
+                self.object.images.add(picture)
+
+        return super().form_valid(form)
+# class BlogPostEdit(UpdateView):
+#     model = BlogPost
+#     template_name = 'posts/blogpost_edit.html'
+#     fields = ['title', 'content', 'published',]
+
+#     def get_success_url(self):
+#         return reverse('posts:profile', kwargs={'username': self.request.user.username})
 
 
 class BlogPostDetail(DetailView):
