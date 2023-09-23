@@ -9,7 +9,6 @@
   font-family: "Pacifico", cursive;
   font-size: 77px;
   text-align: center;
-  color: black;
   line-height: normal;
   justify-content: center;
 }
@@ -129,6 +128,7 @@ h2{
   font-size: 30px;
   margin-bottom: 0;
   margin-left: 10px;
+  color: red;
 }
 
 h5{

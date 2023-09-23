@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block head_extra %}
-  <link rel="stylesheet" href="{% static 'css/blogpost_base.css' %}">
   <link rel="stylesheet" href="{% static 'css/blogpost_create.css' %}">
   <title>Edit an article</title>
 {% endblock %}
@@ -44,8 +43,11 @@
             </div>
 
             <div class="picture">
-              <button type="button" id="remove-all-images" class="remove-all-images-btn">Remove All Images</button>
+
+              {% comment %} <button type="button" id="remove-all-images" class="remove-all-images-btn"><i class="fa-regular fa-circle-xmark"></i></button> {% endcomment %}
+
               <div class="picture-attachment-container">
+                <div id="remove-all-images" class="remove-all-images-btn"><i class="fa-regular fa-circle-xmark fa-2xl remove-icon" style="position: absolute; top: -5px; right: -15px; cursor: pointer;"></i></div>
 
                 <input type="hidden" id="existingFileCount" value="{{ object.images.all.count }}">
                 <input type="hidden" name="remove_all_images" id="remove_all_images" value="0">
@@ -73,9 +75,8 @@
         <div class="go-back"><a href="{% url 'posts:profile' request.user.username %}">GO BACK</a></div>
       </div>
     </div>
-        {% comment %} {{ form }} {% endcomment %}
-        {% comment %} <input type="submit" value="Éditer"> {% endcomment %}
-    {% comment %} </form> {% endcomment %}
+
+    <script src="https://kit.fontawesome.com/a40355b42d.js" crossorigin="anonymous"></script>
 
 
     <script>
