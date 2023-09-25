@@ -34,20 +34,20 @@
             {% if post.images.all.first %}
               <article class="post-item" style="background-image: url('{{ post.images.all.first.img.url }}');">
             {% else %}
-              <article class="post-item" style="background-color: rgba(0, 0, 0, 0.213);">
+              <article class="post-item" style="background-image: linear-gradient(to bottom, rgba(71, 68, 68, 0.453), rgba(0, 0, 0, 0.562));">
             {% endif %}
               <div class="post-info">
                   <a href="{% url 'posts:post' username=request.user.username slug=post.slug %}" class="read-article">
-                    <h2><span style="font-weight: bold">{{ post.title|capfirst }}</span></h2>
+                    <h2><span style="font-weight: bold; color: white; text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.title|capfirst }}</span></h2>
 
                   </a>
-                    <h5>Le {{ post.created_on|date:'j F Y' }}</h5>
+                    <h5><span style="text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">Le {{ post.created_on|date:'j F Y' }}</span></h5>
                 </div>
 
                 {% if post.author == request.user %}
                   <div class="post-actions">
-                      <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}" class="edit"><i class="fa-solid fa-pencil fa-lg"></i></a>
-                      <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}" class="delete"><i class="fa-regular fa-trash-can fa-lg"></i></a>
+                      <a href="{% url 'posts:edit' username=request.user.username slug=post.slug %}" class="edit"><span style="text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);"><i class="fa-solid fa-pencil fa-lg"></span></i></a>
+                      <a href="{% url 'posts:delete' username=request.user.username slug=post.slug %}" class="delete"><span style="text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);"><i class="fa-regular fa-trash-can fa-lg"></span></i></a>
                   </div>
                 {% endif %}
 
@@ -99,6 +99,7 @@
                 $('.posts-grid').css('transform', 'translateX(' + -scrollAmount + 'px)');
             }
         });
+
     </script>
 
 {% endblock %}
