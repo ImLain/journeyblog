@@ -86,43 +86,43 @@ class BlogPostCreate(CreateView):
             data["pictures_formset"] = PictureFormSet(prefix='pictures')
         return data
 
-    # def form_valid(self, form):
-    #     form.instance.author = self.request.user  # Assigner l'auteur
-    #     form.instance.created_on = datetime.now()
-
-    #     context = self.get_context_data()
-    #     pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
-    #     self.object = form.save()
-
-    #     if pictures_form.is_valid():
-    #         for file in self.request.FILES.getlist('pictures-0-img'):
-    #             picture = Pictures(img=file)
-    #             picture.save()
-    #             self.object.images.add(picture)
-
-    #     return super().form_valid(form)
     def form_valid(self, form):
         form.instance.author = self.request.user  # Assigner l'auteur
-        form.instance.updated_on = datetime.now()
+        form.instance.created_on = datetime.now()
 
         context = self.get_context_data()
-        pictures_form = context["pictures_formset"]
-
+        pictures_form = context["pictures_formset"][0]  # prendre le premier formulaire du formset
         self.object = form.save()
 
-        # Supprimer toutes les anciennes images associées à ce post
-        self.object.images.clear()
-
         if pictures_form.is_valid():
-            pictures_form.instance = self.object
-            pictures_form.save()
-
             for file in self.request.FILES.getlist('pictures-0-img'):
                 picture = Pictures(img=file)
                 picture.save()
                 self.object.images.add(picture)
 
         return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.author = self.request.user  # Assigner l'auteur
+    #     form.instance.updated_on = datetime.now()
+
+    #     context = self.get_context_data()
+    #     pictures_form = context["pictures_formset"]
+
+    #     self.object = form.save()
+
+    #     # Supprimer toutes les anciennes images associées à ce post
+    #     self.object.images.clear()
+
+    #     if pictures_form.is_valid():
+    #         pictures_form.instance = self.object
+    #         pictures_form.save()
+
+    #         for file in self.request.FILES.getlist('pictures-0-img'):
+    #             picture = Pictures(img=file)
+    #             picture.save()
+    #             self.object.images.add(picture)
+
+    #     return super().form_valid(form)
 
 class BlogPostEdit(UpdateView):
     model = BlogPost

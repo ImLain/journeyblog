@@ -1,16 +1,112 @@
 {% extends 'blogpost_base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ post.title }}</title>
+{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/blogpost_detail.css' %}">
+  <title>Journey Blog</title>
+{% endblock %}
+
+{% block content %}
+    <header style="background-repeat: no-repeat; background-position: center;
+      {% if post.images.all.first %}
+          background-image: url('{{ post.images.all.first.img.url }}');
+      {% else %}
+          background-image: linear-gradient(to bottom, rgba(71, 68, 68, 0.453), rgba(0, 0, 0, 0.562));
+      {% endif %}
+    ">
+        <div class="header-container">
+          <div class="btn-title">
+            <div class="go-back" style="display: inline-block; margin-right: 20px; margin-top: -10px;">
+              <a href="{% url 'posts:profile' request.user.username %}"><i class="fa-solid fa-chevron-left fa-2xl"></i></a>
+              </div>
+              <h1 style="display: inline-block; text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.title }}</h1>
+            </div>
+            <p class="date" style="text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.created_on|date:'j F Y' }}</p>
+        </div>
+    </header>
+
+    <article>
+      <div class="article-container">
+      <div class="content" id="content-box">
+          {{ post.content|linebreaks|safe }}
+      </div>
+
+      <div class="carousel-container">
+          <button class="carousel-btn carousel-btn-left">
+              <i class="fa-solid fa-circle-chevron-left"></i>
+          </button>
+
+          <div class="image-container">
+              {% for image in post.images.all %}
+                <div class="carousel-image" style="background-image: url('{{ image.img.url }}');"></div>
+              {% endfor %}
+          </div>
+
+          <button class="carousel-btn carousel-btn-right">
+              <i class="fa-solid fa-circle-chevron-right"></i>
+          </button>
+      </div>
+    </div>
+  </article>
+
+    <script src="https://kit.fontawesome.com/a40355b42d.js" crossorigin="anonymous"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let currentIndex = 0;
+
+        const imageElements = document.querySelectorAll(".carousel-image");
+        const btnLeft = document.querySelector(".carousel-btn-left");
+        const btnRight = document.querySelector(".carousel-btn-right");
+
+        // Initial display
+        updateCarousel();
+
+        btnLeft.addEventListener("click", function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        btnRight.addEventListener("click", function () {
+            if (currentIndex < imageElements.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        function updateCarousel() {
+            imageElements.forEach((img, index) => {
+                img.style.display = index === currentIndex ? "block" : "none";
+            });
+        }
+    });
+
+  </script>
+
+{% endblock %}
+
+
+
+{% comment %} {% extends 'blogpost_base.html' %}
 
 {% block title %}
     <title>{{ post.title }}</title>
 {% endblock %}
 
 {% block content %}
-    <article></article>
+    <article>
         <h1>{{ post.title }}</h1>
+        <p>Le {{ post.created_on|date:'j F Y' }}</p>
         <div>{{ post.content|linebreaks|safe }}</div>
         {% for image in post.images.all %}
           <img src="{{ image.img.url }}" alt="L'image de l'article">
         {% endfor %}
 
     </article>
-{% endblock %}
+{% endblock %} {% endcomment %}

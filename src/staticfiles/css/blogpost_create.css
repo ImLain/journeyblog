@@ -65,9 +65,10 @@ html, body {
   height: 3em;
   padding: 5px 10px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
-.form button:hover {
+button:hover {
   background-color: #0b2927;
 }
 .title-label, .content-label{
@@ -88,6 +89,9 @@ html, body {
   border: none;
   margin-bottom: 15px;
 }
+.title-input input[type="text"]:focus, .content-form textarea[name="content"]:focus{
+  outline: none;
+}
 
 .content-form textarea[name="content"]{
   background-color: rgba(255, 255, 255, 0.1);
@@ -97,14 +101,10 @@ html, body {
   border-radius: 30px;
   font-size: 15px;
   height: 10em;
-  padding: 5px 10px;
+  padding: 15px;
   border: none;
 }
 
-/* .picture{
-  display: flex;
-  justify-content: right;
-} */
 .picture-attachment-container {
   display: flex;
   justify-content: center;
@@ -116,6 +116,7 @@ html, body {
   padding: 4px 8px;
   width: 110px;
   height: 110px;
+  cursor: pointer;
   transition-property: border-color, background-color;
   transition-duration: .2s;
 
@@ -126,17 +127,24 @@ html, body {
   }
 }
 
-.picture-attachment-label-container, input[type="file"]{
+.picture{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.picture-attachment-label-container{
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: .5em;
   text-align: center;
-  font-size: .5em;
+  font-size: 0.7em;
   font-weight: 500;
   color: #b5b2c6;
   transition-property: color;
   transition-duration: .2s;
+
 
   .picture-attachment-container:not(.filled):hover &,
   .picture-attachment-container.drag-over & {
@@ -144,6 +152,16 @@ html, body {
   }
 }
 
+
+input[type="file"]{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
 .picture-attachment-label-icon{
   width: 28px;
   height: 28px;
@@ -226,14 +244,13 @@ html, body {
   }
 }
 
-/* .picture-attachment-input {
+.picture-attachment-input {
   position: absolute;
-  z-index: 1;
+  /* z-index: 1; */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  cursor: pointer;
 
   &::file-selector-button {
     display: none;
@@ -242,6 +259,16 @@ html, body {
   &.hidden {
     display: none;
   }
+}
+
+/* .published-picture-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* .published{
+  margin-right: 20px;
 } */
 
 input[type="checkbox"] {
@@ -261,8 +288,6 @@ input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
   left: 7px;
-  /* left: 14px;
-  top: 5px; */
   width: 5px;
   height: 15px;
   border: solid white;
@@ -300,32 +325,3 @@ input[type="checkbox"]:checked::after {
   width: 100%;
   left: 0;
 }
-
-/*
-.title-and-content{
-  display: flex;
-  flex-direction: column;
-  margin: 2%;
-  align-items: center;
-}
-
-input{
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 10px;
-  width: 430px;
-  border-radius: 30px;
-  font-size: 15px;
-  height: 3em;
-  padding: 5px 10px;
-  border: none;
-  margin-bottom: 10%;
-}
-
-textarea{
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: none;
-  border-radius: 30px;
-  width: 430px;
-} */
