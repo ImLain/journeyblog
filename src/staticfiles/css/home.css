@@ -133,17 +133,21 @@ li {
 
 .search-bar{
   position: relative;
-  margin-top: 120px;
-  margin-left: 10%;
-  margin-right: 10%;
   border: solid 1px white;
   width: 80%;
-  height: 3.5%;
+  height: 7%;
   border-radius: 4px;
   background-color: white;
   opacity: 0.7;
 }
 
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  flex-direction: column;
+}
 .search-bar input {
   flex: 1;
   margin-left: 5px;
