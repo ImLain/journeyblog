@@ -1,5 +1,4 @@
-/* FONTS */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
 
 html, body {
@@ -31,11 +30,6 @@ h1{
   padding: 20px;
 }
 
-a{
-  color: white;
-  text-decoration: none;
-}
-
 .go-back:hover {
   transform: scale(1.1);
   transition: transform 0.3s ease;
@@ -49,11 +43,6 @@ a{
   height: 15em;
   margin-left: 50px;
   margin-top: 50px;
-  /* display: flex;
-  align-items: center;
-  flex-direction: column; */
-  /* margin-top: 20px; */
-  /* align-items: center; */
 }
 
 .btn-title{
@@ -86,7 +75,7 @@ a{
   margin-top: 50px;
   width: 200px;
   height: 500px;
-  overflow-y: auto; /* Pour le scroll si le contenu dépasse 300px de hauteur */
+  overflow-y: auto;
 }
 
 .carousel-container {
@@ -210,4 +199,4 @@ a{
     height: 50%;
     overflow: scroll;
   }
-}
+} */

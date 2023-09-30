@@ -23,14 +23,16 @@ environ.Env.read_env(env_file=str(BASE_DIR / "JourneyBlog" / ".env"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'x@lra$li%hu(#)r#9i5))k*qk5oolt8dvob2oqdppuy!6t0h%d'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = env.bool('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -81,14 +83,24 @@ WSGI_APPLICATION = 'JourneyBlog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': env('DB_ENGINE', default='django.db.backends.sqlite3'),
+#         'NAME': env('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+#         'USER': env('DB_USER', default=''),
+#         'PASSWORD': env('DB_PASSWORD', default=''),
+#         'HOST': env('DB_HOST', default='localhost'),
+#         'PORT': env('DB_PORT', default='5432'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': env('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
-        'USER': env('DB_USER', default=''),
-        'PASSWORD': env('DB_PASSWORD', default=''),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env('DB_PORT', default='5432'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'journey',
+        'USER': 'journeyadmin',
+        'PASSWORD': 'Coquelicot05!',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
