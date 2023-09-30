@@ -33,9 +33,11 @@ SECRET_KEY = 'x@lra$li%hu(#)r#9i5))k*qk5oolt8dvob2oqdppuy!6t0h%d'
 
 
 # # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')
+#DEBUG = env.bool('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+ALLOWED_HOSTS = []
 
 # Application definition
 
