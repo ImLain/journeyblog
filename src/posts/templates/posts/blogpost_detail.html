@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head_extra %}
-  <link rel="stylesheet" href="{% static 'css/blogpost_detail.css' %}">
+  {% comment %} <link rel="stylesheet" href="{% static 'css/blogpost_detail.css' %}"> {% endcomment %}
   <title>Journey Blog</title>
 
   <style>
@@ -231,7 +231,7 @@
               </div>
               <h1 style="display: inline-block; text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.title }}</h1>
             </div>
-            <p class="date" style="text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.created_on|date:'j F Y' }}</p>
+            <p class="date" style="text-shadow: 5px 5px 6px rgba(10, 10, 10, 0.509);">{{ post.created_on|date:'j F Y' }}</p>
         </div>
     </header>
 

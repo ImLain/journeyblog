@@ -1,5 +1,4 @@
-/* FONTS */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
 
 html, body {
@@ -21,7 +20,7 @@ header {
 h1{
   font-size: 80px;
 }
-/*
+
 .go-back a{
   position: relative;
   top: 5px;
@@ -200,4 +199,4 @@ h1{
     height: 50%;
     overflow: scroll;
   }
-}
+} */
