@@ -35,8 +35,10 @@
 
     <div class="search-bar">
       <form action="{% url 'posts:user_search' %}" method="get">
-        <input type="text" name="username" placeholder="Search by username">
-        <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="input-btn">
+          <input type="text" name="username" placeholder="Search by username">
+          <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
       </form>
     </div>
 

@@ -21,7 +21,8 @@
         <div class="header-container">
           <div class="btn-title">
             <div class="go-back" style="display: inline-block; margin-right: 20px; margin-top: -10px;">
-              <a href="{% url 'posts:profile' request.user.username %}"><i class="fa-solid fa-chevron-left fa-2xl"></i></a>
+              {% comment %} <a href="{% url 'posts:profile' request.user.username %}"><i class="fa-solid fa-chevron-left fa-2xl"></i></a> {% endcomment %}
+              <a href="javascript:void(0);" onclick="window.history.back();"><i class="fa-solid fa-chevron-left fa-2xl"></i></a>
               </div>
               <h1 style="display: inline-block; text-shadow: 4px 4px 5px rgba(10, 10, 10, 0.509);">{{ post.title }}</h1>
             </div>
@@ -31,26 +32,26 @@
 
     <article>
       <div class="article-container">
-      <div class="content" id="content-box">
-          {{ post.content|linebreaks|safe }}
+        <div class="content" id="content-box">
+            {{ post.content|linebreaks|safe }}
+        </div>
+
+        <div class="carousel-container">
+            <button class="carousel-btn carousel-btn-left">
+                <i class="fa-solid fa-circle-chevron-left"></i>
+            </button>
+
+            <div class="image-container">
+                {% for image in post.images.all %}
+                  <div class="carousel-image" style="background-image: url('{{ image.img.url }}');"></div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-btn carousel-btn-right">
+                <i class="fa-solid fa-circle-chevron-right"></i>
+            </button>
+        </div>
       </div>
-
-      <div class="carousel-container">
-          <button class="carousel-btn carousel-btn-left">
-              <i class="fa-solid fa-circle-chevron-left"></i>
-          </button>
-
-          <div class="image-container">
-              {% for image in post.images.all %}
-                <div class="carousel-image" style="background-image: url('{{ image.img.url }}');"></div>
-              {% endfor %}
-          </div>
-
-          <button class="carousel-btn carousel-btn-right">
-              <i class="fa-solid fa-circle-chevron-right"></i>
-          </button>
-      </div>
-    </div>
   </article>
 
     <script src="https://kit.fontawesome.com/a40355b42d.js" crossorigin="anonymous"></script>

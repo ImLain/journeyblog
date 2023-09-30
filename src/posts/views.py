@@ -32,6 +32,8 @@ class UserSearchView(View):
     def get(self, request, *args, **kwargs):
         username = request.GET.get('username')
 
+        username = username.lower() if username else username
+
         # Si le nom d'utilisateur est vide ou non valide
         if not username or not self.is_valid_username(username):
             return redirect('home')
@@ -101,28 +103,6 @@ class BlogPostCreate(CreateView):
                 self.object.images.add(picture)
 
         return super().form_valid(form)
-    # def form_valid(self, form):
-    #     form.instance.author = self.request.user  # Assigner l'auteur
-    #     form.instance.updated_on = datetime.now()
-
-    #     context = self.get_context_data()
-    #     pictures_form = context["pictures_formset"]
-
-    #     self.object = form.save()
-
-    #     # Supprimer toutes les anciennes images associées à ce post
-    #     self.object.images.clear()
-
-    #     if pictures_form.is_valid():
-    #         pictures_form.instance = self.object
-    #         pictures_form.save()
-
-    #         for file in self.request.FILES.getlist('pictures-0-img'):
-    #             picture = Pictures(img=file)
-    #             picture.save()
-    #             self.object.images.add(picture)
-
-    #     return super().form_valid(form)
 
 class BlogPostEdit(UpdateView):
     model = BlogPost
@@ -157,7 +137,7 @@ class BlogPostEdit(UpdateView):
             pictures_form.instance = self.object
             pictures_form.save()
 
-            # Supprimer les anciennes images si vous le souhaitez
+            # Supprimer les anciennes images
 
             for file in self.request.FILES.getlist('pictures-0-img'):
                 picture = Pictures(img=file)
@@ -165,14 +145,6 @@ class BlogPostEdit(UpdateView):
                 self.object.images.add(picture)
 
         return super().form_valid(form)
-# class BlogPostEdit(UpdateView):
-#     model = BlogPost
-#     template_name = 'posts/blogpost_edit.html'
-#     fields = ['title', 'content', 'published',]
-
-#     def get_success_url(self):
-#         return reverse('posts:profile', kwargs={'username': self.request.user.username})
-
 
 class BlogPostDetail(DetailView):
     model = BlogPost

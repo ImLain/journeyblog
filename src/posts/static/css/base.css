@@ -93,3 +93,11 @@ nav{
   text-align: center;
   font-family: 'Open Sans', sans-serif;
 }
+
+.btn-profile:hover, .btn-logout:hover{
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+.btn-profile:not(:hover), .btn-logout:not(:hover) {
+  transition: transform 0.3s ease;
+}
