@@ -37,7 +37,7 @@ SECRET_KEY = 'x@lra$li%hu(#)r#9i5))k*qk5oolt8dvob2oqdppuy!6t0h%d'
 DEBUG = True
 
 #ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-ALLOWED_HOSTS = 127.0.0.1,spongy.pythonanywhere.com
+ALLOWED_HOSTS = ['127.0.0.1', 'spongy.pythonanywhere.com']
 
 # Application definition
 
