@@ -129,14 +129,26 @@
       height: 100%;
     }
 
-    .carousel-image {
+    {% comment %} .carousel-image {
       width: 100%;
       height: 100%;
       background-size: cover;
       background-position: center;
       border-radius: 20px;
       box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.7);
+    } {% endcomment %}
+
+    .carousel-image {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-color: black;  /* ajouter une couleur de fond pour les bandes */
+      border-radius: 20px;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.7);
     }
+
 
     @media screen and (max-width: 1000px) {
 
@@ -269,6 +281,22 @@
         const btnLeft = document.querySelector(".carousel-btn-left");
         const btnRight = document.querySelector(".carousel-btn-right");
 
+        const imageContainers = document.querySelectorAll('.image-container .carousel-image');
+
+      imageContainers.forEach(container => {
+          const imageUrl = getComputedStyle(container).backgroundImage.slice(5, -2);
+          if (imageUrl) {
+              const image = new Image();
+              image.src = imageUrl;
+              image.onload = function() {
+                  if (image.width < image.height) {  // Portrait
+                      container.style.backgroundSize = 'contain';
+                  } else {  // Paysage
+                      container.style.backgroundSize = '100%';
+                  }
+              }
+          }
+      });
         // Initial display
         updateCarousel();
 
@@ -296,23 +324,3 @@
   </script>
 
 {% endblock %}
-
-
-
-{% comment %} {% extends 'blogpost_base.html' %}
-
-{% block title %}
-    <title>{{ post.title }}</title>
-{% endblock %}
-
-{% block content %}
-    <article>
-        <h1>{{ post.title }}</h1>
-        <p>Le {{ post.created_on|date:'j F Y' }}</p>
-        <div>{{ post.content|linebreaks|safe }}</div>
-        {% for image in post.images.all %}
-          <img src="{{ image.img.url }}" alt="L'image de l'article">
-        {% endfor %}
-
-    </article>
-{% endblock %} {% endcomment %}
